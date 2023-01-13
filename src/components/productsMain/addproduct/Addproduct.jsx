@@ -39,9 +39,8 @@ function Addproduct() {
       data.append("name", fileName);
       data.append("file", images);
       filenames.push(fileName);
-      //console.log(newPost);
       try {
-        await axios.post("/upload", data);
+        await axios.post("/api/upload", data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -54,9 +53,7 @@ function Addproduct() {
           IsFavourite: fav,
           Price: price,
         };
-        console.log(data);
-        const res = await axios.post("/product", data);
-        console.log(res.data);
+        const res = await axios.post("/api/product", data);
       }
     }
 

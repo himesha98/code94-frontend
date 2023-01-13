@@ -18,7 +18,7 @@ import { EditContext } from "../../../context/Context";
 
 function Viewproducts(props) {
   const favTrigger = props.favourite;
-  const prodlist = props.list;
+  let prodlist = props.list;
   const [filteredlist,setFilteredlist] = useState([])
   const { isFetching, dispatch } = useContext(EditContext);
 
@@ -31,7 +31,7 @@ function Viewproducts(props) {
         }
       })
       setFilteredlist(prodlist)
-    }else{
+    }else if(favTrigger==false){
       setFilteredlist(prodlist)
     }
     dispatch({ type: "APP_START" });

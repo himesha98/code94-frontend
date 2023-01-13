@@ -7,7 +7,6 @@ const INITIAL_STATE = {
     isFetching: false,
     error: false,
 };
-console.log(localStorage.getItem("item"))
 export const EditContext = createContext(INITIAL_STATE);
 
 export const EditContextProvider = ({ children }) => {

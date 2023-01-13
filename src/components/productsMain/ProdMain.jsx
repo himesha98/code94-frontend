@@ -18,21 +18,30 @@ import Searchresults from "./searchresults/Searchresults";
 import Addproduct from "./addproduct/Addproduct";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 function ProdMain() {
   const [title, setTitle] = useState("PRODUCTS");
   const [favProds, setFavprods] = useState(false);
   const [searching, setSearching] = useState(false);
   const [productlist, setProductlist] = useState([]);
-  const [param, setParam] = useState();
+  const [param, setParam] = useState("");
+  const [filteredlist,setFilteredlist] = useState([])
 
   const setFavProds = () => {
     if (favProds) {
       setTitle("PRODUCTS");
       setFavprods(false);
+      getProducts()
     } else {
       setTitle("FAVOURITE PRODUCTS");
       setFavprods(true);
+   
+      productlist.map((item,index)=>{
+          if(item.IsFavourite==false){
+            productlist.splice(index, 1); 
+          }
+        })
+      setFilteredlist(productlist)
     }
   };
   const searchProducts = async (e) => {
@@ -42,9 +51,8 @@ function ProdMain() {
       search: true,
       param: param,
     };
-    console.log(data);
-    const res = await axios.get(`/product/${param}`);
-    console.log(res.data);
+    const res = await axios.get(`/api/product/${param}`);
+   
     if (res.status == 200) {
       setProductlist(res.data);
     } else {
@@ -52,10 +60,10 @@ function ProdMain() {
     }
   };
   const getProducts = async () => {
-    const res = await axios.get("/product");
-    console.log(res.data);
+    const res = await axios.get("/api/product");
     if (res.status == 200) {
       setProductlist(res.data);
+      setFilteredlist(res.data)
     } else {
       setProductlist([]);
     }
@@ -90,8 +98,8 @@ function ProdMain() {
               >
                 <InputBase
                   sx={{ textAlign: "left", paddingLeft: 3 }}
-                  placeholder="Search for Products"
-                  inputProps={{ "aria-label": "search google maps" }}
+                  placeholder="Search by Product Name"
+                  inputProps={{ "aria-label": "" }}
                   onChange={(e) => setParam(e.target.value)}
                 />
                 <Button
@@ -166,7 +174,7 @@ function ProdMain() {
             lg={1}
           >
             <Button onClick={setFavProds} variant="outlined">
-              <StarIcon />
+              {favProds?<StarIcon />:  <StarOutlineIcon  />}
             </Button>
           </Grid>
         </Grid>
@@ -181,7 +189,7 @@ function ProdMain() {
           </>
         ) : (
           <>
-            <Viewproducts favourite={favProds} list={productlist} />
+            <Viewproducts favourite={favProds} list={filteredlist} />
           </>
         )}
       </Box>

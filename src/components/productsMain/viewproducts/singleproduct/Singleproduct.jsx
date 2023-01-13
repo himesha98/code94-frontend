@@ -27,15 +27,13 @@ import { redirect, useNavigate } from "react-router-dom";
 function Singleproduct(props) {
   const product = props.product;
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  console.log(process.env.REACT_APP_PUBLIC_FOLDER);
   const [dropopen, setDropOpen] = useState(false);
   const { isFetching, dispatch } = useContext(EditContext);
   const navigate = useNavigate();
   const deleteItem = async (itemid) => {
-    const data = {
-      id: itemid,
-    };
-    const res = await axios.delete("/product", data);
+    
+    console.log("item",itemid);
+    const res = await axios.delete(`/api/product/${itemid}`);
     if (res.status == 200) {
     } else {
     }
@@ -44,7 +42,6 @@ function Singleproduct(props) {
     setDropOpen(true);
   };
   const editproduct = () => {
-    console.log("x")
     dispatch({ type: "EDIT_SUCCESS", payload: props.product });
     navigate("/editproduct");
   }
@@ -131,7 +128,7 @@ function Singleproduct(props) {
           md={2}
           lg={2}
         >
-          <img crossorigin="anonymous"  className="postImg" src={`http://localhost:8800/images/${product.Image[0]}`} alt="" />
+          <img crossorigin="anonymous"  className="" src={`http://localhost:8800/images/${product.Image[0]}`} alt="" />
         </Grid>
         <Grid
           sx={{

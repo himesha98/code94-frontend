@@ -29,7 +29,6 @@ function Editproduct() {
   const [price, setPrice] = useState(item.Price);
   const [filenames, setfilenames] = useState([]);
 
-  console.log(item);
 
   const submitchanges = async (e) => {
     e.preventDefault();
@@ -43,7 +42,7 @@ function Editproduct() {
       IsFavourite: fav,
       Images: item.Images,
     };
-    const res = await axios.put("/product", data);
+    const res = await axios.put("/api/product", data);
   };
   return (
     <React.Fragment>
